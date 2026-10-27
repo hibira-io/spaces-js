@@ -1,0 +1,15 @@
+# Posts each published release of this repo to Slack, using the shared
+# workflow in hibira-io/.github. Needs the org secret SLACK_WEBHOOK_URL;
+# without it the job is a no-op.
+name: release-notify
+
+on:
+  release:
+    types: [published]
+
+permissions: {}
+
+jobs:
+  slack:
+    uses: hibira-io/.github/.github/workflows/release-slack.yml@main
+    secrets: inherit
