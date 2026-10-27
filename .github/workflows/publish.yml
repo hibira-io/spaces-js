@@ -1,0 +1,36 @@
+# Publishes to npm when a GitHub Release is published. The release tag must be
+# v<version from package.json>, e.g. v0.1.0. Pre-releases (v0.2.0-beta.1) go
+# to the "next" dist-tag, others to "latest". Needs the NPM_TOKEN secret.
+name: publish
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+  id-token: write # npm provenance
+
+concurrency:
+  group: publish-${{ github.ref }}
+
+jobs:
+  npm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          registry-url: https://registry.npmjs.org
+      - name: Tag matches package.json version
+        id: version
+        run: |
+          version="$(node -p "require('./package.json').version")"
+          if [ "v$version" != "$GITHUB_REF_NAME" ]; then
+            echo "release tag $GITHUB_REF_NAME does not match package.json version $version"; exit 1
+          fi
+          case "$version" in *-*) echo "dist_tag=next" >> "$GITHUB_OUTPUT" ;; *) echo "dist_tag=latest" >> "$GITHUB_OUTPUT" ;; esac
+      - run: npm test
+      - run: npm publish --provenance --access public --tag "${{ steps.version.outputs.dist_tag }}"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
