@@ -1,6 +1,6 @@
 {
   "name": "@hibira-io/spaces",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Multiplayer collaboration for pusher-js and Laravel Echo on presence channels: who's online, live cursors, component locks and follow mode, with no extra server",
   "keywords": [
     "pusher",
@@ -16,7 +16,7 @@
     "realtime",
     "hibira"
   ],
-  "homepage": "https://github.com/hibira-io/spaces-js#readme",
+  "homepage": "https://hibira.io",
   "bugs": {
     "url": "https://github.com/hibira-io/spaces-js/issues"
   },
