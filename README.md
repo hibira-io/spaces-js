@@ -173,7 +173,7 @@ plus a tab id) if that matters to you.
 |---|---|
 | Members per space | presence channel limit (100 on Hibira) |
 | Client events | 10 per second per connection on the server; the space sends at most `maxRate` (8) and merges waiting profile, location and cursor updates |
-| Event size | 10 KB |
+| Event size | 4 KB on the Free plan, 10 KB on Hobby and Starter, more on higher plans |
 | Billing | each client event counts as one message, however many members receive it |
 
 A member moving the pointer all the time sends 5 events a second, about 18,000
